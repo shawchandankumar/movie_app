@@ -131,5 +131,6 @@ input:focus {
   padding: 7px 10px;
   font-weight: 600;
   background-color: #2185d0;
+  cursor: pointer;
 }
 

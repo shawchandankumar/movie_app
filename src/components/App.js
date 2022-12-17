@@ -2,6 +2,7 @@ import React from 'react';
 import NavBar from './NavBar';
 import MovieCard from './MovieCard';
 import { MoviesData } from '../data';
+import { addMovies } from '../actions';
 import '../index.css';
 
 class App extends React.Component {
@@ -13,14 +14,11 @@ class App extends React.Component {
       this.forceUpdate();
     })
 
-    store.dispatch({
-      type: 'ADD_MOVIES',
-      movies: MoviesData
-    })
+    store.dispatch(addMovies(MoviesData));
   }
 
   render () {
-    const movies = this.props.store.getState();
+    const { list } = this.props.store.getState();
 
     return (
       <div className="App">
@@ -31,7 +29,7 @@ class App extends React.Component {
             <div className="tab">Favourites</div>
           </div>
           <div className="list">
-            {movies.map((movie) => <MovieCard movie={movie}/>)}
+            {list.map((movie) => <MovieCard movie={movie}/>)}
           </div>
         </div>
       </div>
