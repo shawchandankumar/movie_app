@@ -134,3 +134,13 @@ input:focus {
   cursor: pointer;
 }
 
+.Unfavourite-btn {
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 7px 10px;
+  font-weight: 600;
+  background-color: rgb(252, 82, 82);
+  cursor: pointer;
+}
+
