@@ -18,9 +18,9 @@ class App extends React.Component {
   }
 
   isMovieFavourite = (movie) => {
-    const { favourites } = this.props.store.getState();
+    const { movies } = this.props.store.getState();
 
-    const index = favourites.indexOf(movie);
+    const index = movies.favourites.indexOf(movie);
     // console.log(favourites);
 
     if (index !== -1) {
@@ -34,13 +34,15 @@ class App extends React.Component {
   }
 
   render () {
-    const { list, favourites, showFavourites } = this.props.store.getState();
+    console.log(this.props.store.getState())
+    const { movies, search } = this.props.store.getState();
+    const { list, favourites, showFavourites } = movies;
 
     const displayMovies = showFavourites ? favourites : list;
 
     return (
       <div className="App">
-        <NavBar />
+        <NavBar dispatch={this.props.store.dispatch} search={search} />
         <div className="main">
           <div className="tabs">
             <div className={`tab ${showFavourites ? '' : 'active-tabs'}`} onClick={() => this.changeTab(false)} >Movies</div>
