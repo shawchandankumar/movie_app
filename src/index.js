@@ -5,7 +5,6 @@ import { createStore, applyMiddleware } from 'redux';
 import './index.css';
 import App from './components/App';
 import Root from './reducers';
-import AppWrapper from './components/App';
 
 const logger = ({ dispatch, getState }) => (next) => (action) => {
   // console.log(typeof action);
@@ -47,9 +46,49 @@ class Provider extends React.Component {
   }
 }
 
+export default function Connect (callback) {
+  return function (Component) {
+
+    class ConnectedComponent extends React.Component {
+
+      constructor (props) {
+        super(props);
+        // this.unsubscribe = this.props.store.subscribe(() => this.forceUpdate());
+      }
+
+      componentDidMount () {
+        const { store }= this.props;
+        store.subscribe(() => this.forceUpdate());
+        console.log('Not updating');
+      }
+
+      componentWillUnmount () {
+        this.unsubscribe();
+      }
+
+      render () {
+        const { store } = this.props;
+        const state = store.getState();
+        const dataToBePassedAsProps = callback(state);
+        return (
+          <Component {...dataToBePassedAsProps} dispatch={store.dispatch} />
+        );
+      }
+    }
+
+    return class ComponentWrapper extends React.Component {
+      render () {
+        return <StoreContext.Consumer>
+          {(store) => <ConnectedComponent store={store} />}
+        </StoreContext.Consumer>
+      }
+    }
+  }
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <AppWrapper />
+    <App />
   </Provider>
 );
