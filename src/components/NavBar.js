@@ -1,4 +1,5 @@
 import React from 'react';
+import { StoreContext } from '..';
 import { handleMovieSearch, addMovieToList } from '../actions';
 import '../index.css';
 
@@ -52,4 +53,14 @@ class NavBar extends React.Component {
     }
 }
 
-export default NavBar;
+class NavBarWrapper extends React.Component {
+    render () {
+        return (
+            <StoreContext.Consumer>
+                {(store) => <NavBar dispatch={store.dispatch} search={this.props.search} />}
+            </StoreContext.Consumer>
+        );
+    }
+}
+
+export default NavBarWrapper;
